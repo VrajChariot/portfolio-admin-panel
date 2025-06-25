@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@layer base {
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  }
+  
+  @layer utilities {
+    .bg-clip-text {
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+  }
