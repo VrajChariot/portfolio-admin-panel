@@ -4,6 +4,12 @@ import { PorfoliolData } from "./models/ProjectData.js";
 import { ExpData } from "./models/ExpData.js";
 import { Credentials } from "./models/Credentials.js";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 dotenv.config();
 
@@ -18,7 +24,8 @@ try {
 }
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
@@ -105,6 +112,11 @@ app.delete("/experience/:id", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`);
-});
+if (!process.env.VERCEL) {
+  // Or process.env.NODE_ENV !== 'production'
+  app.listen(port, () => {
+    console.log(`Example app listening on port http://localhost:${port}`);
+  });
+}
+
+export default app; 
